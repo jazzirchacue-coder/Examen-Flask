@@ -23,11 +23,16 @@ align-items:center;
 
 .card{
 background:white;
-width:500px;
+width:600px;
 padding:40px;
-border-radius:15px;
+border-radius:20px;
 text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.logo{
+font-size:80px;
+margin-bottom:15px;
 }
 
 h1{
@@ -35,9 +40,16 @@ color:#1f2937;
 margin-bottom:10px;
 }
 
-p{
+.subtitulo{
 color:#6b7280;
 margin-bottom:30px;
+}
+
+.usuario{
+background:#f3f4f6;
+padding:12px;
+border-radius:10px;
+margin-bottom:25px;
 }
 
 .btn{
@@ -48,10 +60,10 @@ margin-bottom:15px;
 
 .btn button{
 width:100%;
-padding:14px;
+padding:15px;
 border:none;
-border-radius:8px;
-font-size:15px;
+border-radius:10px;
+font-size:16px;
 cursor:pointer;
 color:white;
 }
@@ -60,27 +72,48 @@ color:white;
 background:#2563eb;
 }
 
+.buscar button:hover{
+background:#1d4ed8;
+}
+
 .salir button{
 background:#dc2626;
 }
 
-</style>
+.salir button:hover{
+background:#b91c1c;
+}
 
+</style>
 </head>
 <body>
 
 <div class="card">
 
-<h1>Bienvenido</h1>
+<div class="logo">
+🛒
+</div>
 
-<p>{{ usuario }}</p>
+<h1>Sistema de Gestión de Productos</h1>
+
+<p class="subtitulo">
+Panel Principal del Sistema
+</p>
+
+<div class="usuario">
+👤 Bienvenido: <strong>{{ usuario }}</strong>
+</div>
 
 <a href="/buscador" class="btn buscar">
-<button>🔍 Buscar Productos</button>
+<button>
+🔍 Buscar Productos
+</button>
 </a>
 
 <a href="/logout" class="btn salir">
-<button>🚪 Cerrar Sesión</button>
+<button>
+🚪 Cerrar Sesión
+</button>
 </a>
 
 </div>

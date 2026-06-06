@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask_cors import CORS
 import sqlite3
-import os
 
 app = Flask(__name__)
+CORS(app)
+
 app.secret_key = "clave_secreta_2025"
 
 DB_NAME = "database.db"
@@ -52,6 +54,7 @@ def crear_bd():
     productos = cur.fetchall()
 
     if len(productos) == 0:
+
         datos = [
             ('P001', 'Laptop HP', 'Laptop Core i5', 2500, 10, 'Tecnologia'),
             ('P002', 'Mouse Logitech', 'Mouse Inalambrico', 80, 50, 'Accesorios'),
@@ -66,6 +69,10 @@ def crear_bd():
 
     conn.commit()
     conn.close()
+
+
+# Crear BD automáticamente
+crear_bd()
 
 
 @app.route("/")
@@ -139,6 +146,7 @@ def buscar_producto():
     conn.close()
 
     if producto:
+
         return jsonify({
             "encontrado": True,
             "codigo": producto["codigo"],
@@ -161,5 +169,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    crear_bd()
     app.run(host="0.0.0.0", port=10000)
