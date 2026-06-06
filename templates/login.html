@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+
+<title>Sistema de Inventario</title>
 
 <style>
 
@@ -15,45 +16,74 @@
 }
 
 body{
-    background:#eef2f7;
-    height:100vh;
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
+    background:#f4f6f9;
 }
 
-.card{
+.login-box{
+    width:430px;
     background:white;
-    width:400px;
-    padding:35px;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
+    padding:40px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    border:1px solid #e5e7eb;
 }
 
-h2{
+.logo{
+    text-align:center;
+    font-size:70px;
+    margin-bottom:10px;
+}
+
+h1{
     text-align:center;
     color:#1f2937;
-    margin-bottom:25px;
+    margin-bottom:10px;
+}
+
+.subtitulo{
+    text-align:center;
+    color:#6b7280;
+    margin-bottom:30px;
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#374151;
 }
 
 input{
     width:100%;
-    padding:12px;
-    margin-top:8px;
-    margin-bottom:18px;
+    padding:14px;
     border:1px solid #d1d5db;
-    border-radius:8px;
+    border-radius:10px;
+    font-size:15px;
+}
+
+input:focus{
+    outline:none;
+    border-color:#2563eb;
 }
 
 button{
     width:100%;
-    padding:12px;
+    padding:15px;
+    border:none;
+    border-radius:10px;
     background:#2563eb;
     color:white;
-    border:none;
-    border-radius:8px;
+    font-size:16px;
     cursor:pointer;
-    font-size:15px;
+    transition:.3s;
 }
 
 button:hover{
@@ -61,35 +91,72 @@ button:hover{
 }
 
 .error{
-    color:red;
-    margin-bottom:15px;
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:12px;
+    border-radius:10px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.footer{
+    margin-top:20px;
+    text-align:center;
+    color:#9ca3af;
+    font-size:13px;
 }
 
 </style>
 </head>
 <body>
 
-<div class="card">
+<div class="login-box">
 
-    <h2>Sistema de Productos</h2>
+    <div class="logo">
+        📦
+    </div>
+
+    <h1>Sistema de Inventario</h1>
+
+    <p class="subtitulo">
+        Control y búsqueda de productos
+    </p>
 
     {% if error %}
-    <p class="error">{{ error }}</p>
+    <div class="error">
+        {{ error }}
+    </div>
     {% endif %}
 
     <form method="POST">
 
-        <label>Usuario</label>
-        <input type="text" name="usuario" required>
+        <div class="form-group">
+            <label>Usuario</label>
+            <input
+                type="text"
+                name="usuario"
+                placeholder="Ingrese su usuario"
+                required>
+        </div>
 
-        <label>Contraseña</label>
-        <input type="password" name="password" required>
+        <div class="form-group">
+            <label>Contraseña</label>
+            <input
+                type="password"
+                name="password"
+                placeholder="Ingrese su contraseña"
+                required>
+        </div>
 
         <button type="submit">
-            Ingresar
+            Ingresar al Sistema
         </button>
 
     </form>
+
+    <div class="footer">
+        Programación Aplicada II
+    </div>
 
 </div>
 
