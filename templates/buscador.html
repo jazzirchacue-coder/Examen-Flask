@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buscador de Productos</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#eef2f7;
+    min-height:100vh;
+    padding:40px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+h1{
+    text-align:center;
+    color:#1f2937;
+    margin-bottom:25px;
+}
+
+.busqueda{
+    display:flex;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+input{
+    flex:1;
+    padding:14px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    font-size:15px;
+}
+
+button{
+    padding:14px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    font-size:15px;
+}
+
+.buscar{
+    background:#2563eb;
+}
+
+.buscar:hover{
+    background:#1d4ed8;
+}
+
+.regresar{
+    background:#6b7280;
+}
+
+.regresar:hover{
+    background:#4b5563;
+}
+
+.salir{
+    background:#dc2626;
+}
+
+.salir:hover{
+    background:#b91c1c;
+}
+
+.acciones{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+}
+
+#resultado{
+    margin-top:25px;
+}
+
+.producto-card{
+    background:white;
+    border-radius:12px;
+    padding:25px;
+    border:1px solid #e5e7eb;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.producto-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    border-bottom:1px solid #e5e7eb;
+    padding-bottom:15px;
+}
+
+.producto-header h2{
+    color:#1f2937;
+}
+
+.badge{
+    background:#2563eb;
+    color:white;
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:14px;
+}
+
+.producto-body{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.item{
+    background:#f8fafc;
+    padding:15px;
+    border-radius:10px;
+}
+
+.item strong{
+    display:block;
+    color:#2563eb;
+    margin-bottom:8px;
+}
+
+.item p{
+    color:#374151;
+}
+
+.error-card{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    border:1px solid #fecaca;
+}
+
+.inicial{
+    text-align:center;
+    padding:30px;
+    background:#f8fafc;
+    border-radius:10px;
+    color:#6b7280;
+}
+
+@media(max-width:700px){
+
+    .busqueda{
+        flex-direction:column;
+    }
+
+    .producto-body{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🔍 Buscador de Productos</h1>
+
+    <div class="busqueda">
+
+        <input
+            type="text"
+            id="codigo"
+            placeholder="Ingrese código del producto (Ej: P001)"
+        >
+
+        <button
+            class="buscar"
+            onclick="buscarProducto()">
+            Buscar
+        </button>
+
+    </div>
+
+    <div id="resultado">
+
+        <div class="inicial">
+            Ingrese un código para realizar la búsqueda.
+        </div>
+
+    </div>
+
+    <div class="acciones">
+
+        <a href="/principal">
+            <button class="regresar">
+                ⬅ Regresar
+            </button>
+        </a>
+
+        <a href="/logout">
+            <button class="salir">
+                🚪 Salir
+            </button>
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+function buscarProducto(){
+
+    let codigo = document.getElementById("codigo").value.trim();
+
+    if(codigo === ""){
+
+        document.getElementById("resultado").innerHTML = `
+            <div class="error-card">
+                <h3>Ingrese un código</h3>
+            </div>
+        `;
+        return;
+    }
+
+    fetch("/api/buscar_producto",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            codigo:codigo
+        })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+
+        let resultado = document.getElementById("resultado");
+
+        if(data.encontrado){
+
+            resultado.innerHTML = `
+
+            <div class="producto-card">
+
+                <div class="producto-header">
+
+                    <h2>${data.nombre}</h2>
+
+                    <span class="badge">
+                        ${data.codigo}
+                    </span>
+
+                </div>
+
+                <div class="producto-body">
+
+                    <div class="item">
+                        <strong>Descripción</strong>
+                        <p>${data.descripcion}</p>
+                    </div>
+
+                    <div class="item">
+                        <strong>Precio</strong>
+                        <p>S/ ${data.precio}</p>
+                    </div>
+
+                    <div class="item">
+                        <strong>Stock</strong>
+                        <p>${data.stock} unidades</p>
+                    </div>
+
+                    <div class="item">
+                        <strong>Categoría</strong>
+                        <p>${data.categoria}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            `;
+
+        }else{
+
+            resultado.innerHTML = `
+
+            <div class="error-card">
+
+                <h3>❌ Producto no encontrado</h3>
+
+                <p>
+                    Verifique el código ingresado.
+                </p>
+
+            </div>
+
+            `;
+
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
